@@ -330,3 +330,75 @@ I finish it by **pytorch**
 **RESULT:**
 
 ![](/assets/img/ass3.png)
+
+## Assignment 4
+
+[original details](/assets/games_102_assignment/assignment4.md)
+
+1. I configure it in Utopia.
+
+2. The core of this assignment is configure that cubic spline curve.
+
+   The critical matrix is:
+
+   
+   $$
+   \left[
+   \begin{matrix}
+   u1&h1\\
+   h1&u2&h2\\
+    & h2&u3&h3\\
+    &&\ddots&\ddots&\ddots\\
+    &&&h_{n-3}&u_{n-2}&h_{n-2}\\
+    &&&&h_{n-2}&u_{n-1}
+    
+   \end{matrix}
+   \right]
+   \left[
+   \begin{matrix}
+   M_1\\
+   M_2\\
+   M_3\\
+   \vdots\\
+   M_{n-2}\\
+   M_{n-1}
+   \end{matrix}
+   \right]
+   =\left[
+   \begin{matrix}
+   v_1\\
+   v_2\\
+   v_3\\
+   \vdots\\
+   v_{n-2}\\
+   v_{n-1}
+   \end{matrix}
+   \right]
+   $$
+   wherein:
+
+   
+   $$
+   h_i=x_{i+1}-x_i\\
+   v_i=2(h_i+h_{i-1})\\
+   b_i=\frac{6}{h_i}(y_{i+1}-y_i)\\
+   v_i=b_i-b_{i-1}
+   $$
+   
+
+   3. Then we need solve the matrix **M**
+
+   4. At last:
+
+      
+      $$
+      S_i(x)=\frac{M_i}{6h_i}(x_{i+1}-x)^3+\frac{M_{i+1}}{6h_i}(x-x_i)^3
+      +(\frac{y_{i+1}}{h_i}-\frac{M_{i+1}h_i}{6})(x-x_i)+
+      (\frac{y_{i}}{h_i}-\frac{M_{i}h_i}{6})(x_{i+1}-x)
+      $$
+      
+
+   OK, Result:
+
+   ![RESULT](/assets/img/cubicspline.png)
+
