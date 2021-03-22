@@ -402,3 +402,108 @@ I finish it by **pytorch**
 
    ![RESULT](/assets/img/cubicspline.png)
 
+## Assignment 5
+
+[Original details](/assets/games_102_assignment/assignment5.md)
+
+I finish this assignment by Utopia.
+
+This assignment is quite basically. We just need configure its algorithm.
+
+For Chaykin:
+
+Quadric:
+
+```c++
+std::vector<ImVec2> quadraticChaykin(CanvasData* data) {
+	std::vector<ImVec2> v;
+	size_t size = data->points.size();
+	for (const auto i : data->points) {
+		v.push_back(i);
+	}
+	for (int i = 0; i < 10; i++) {
+		std::vector<ImVec2> vt;
+		size_t vSize = v.size();
+		for (int j = 0; j < vSize - 1; j++) {
+			
+			vt.push_back(ImVec2((0.75 * v[j][0] + 0.25 * v[j + 1][0]), (0.75 * v[j][1] + 0.25 * v[j + 1][1])));
+			vt.push_back(ImVec2((0.25 * v[j][0] + 0.75 * v[j + 1][0]), (0.25 * v[j][1] + 0.75 * v[j + 1][1])));
+		}
+		
+		vt.push_back(ImVec2((0.75 * v[vSize - 1][0] + 0.25 * v[0][0]), (0.75 * v[vSize - 1][1] + 0.25 * v[0][1])));
+		vt.push_back(ImVec2((0.25 * v[vSize - 1][0] + 0.75 * v[0][0]), (0.25 * v[vSize - 1][1] + 0.75 * v[0][1])));
+
+		v.clear();
+		for (const auto i : vt) {
+			v.push_back(i);
+		}
+	}
+	return v;
+}
+```
+
+ Cubic
+
+```c++
+std::vector<ImVec2> cubicChaykin(CanvasData* data) {
+	std::vector<ImVec2> v;
+	size_t size = data->points.size();
+	for (const auto i : data->points) {
+		v.push_back(i);
+	}
+	for (int i = 0; i < 10; i++) {
+		std::vector<ImVec2> vt;
+		size_t vSize = v.size();
+		for (int j = 1; j < vSize - 1; j++) {
+			vt.push_back(ImVec2((0.125 * v[j - 1][0] + 0.75 * v[j][0] + 0.125 * v[j + 1][0]), (0.125 * v[j - 1][1] + 0.75 * v[j][1] + 0.125 * v[j + 1][1])));
+			vt.push_back(ImVec2((0.5 * v[j][0] + 0.5 * v[j + 1][0]), (0.5 * v[j][1] + 0.5 * v[j + 1][1])));
+		}
+		vt.push_back(ImVec2((0.125 * v[vSize - 2][0] + 0.75 * v[vSize - 1][0] + 0.125 * v[0][0]), (0.125 * v[vSize - 2][1] + 0.75 * v[vSize - 1][1] + 0.125 * v[0][1])));
+		vt.push_back(ImVec2((0.5 * v[vSize - 1][0] + 0.5 * v[0][0]), (0.5 * v[vSize - 1][1] + 0.5 * v[0][1])));
+		vt.push_back(ImVec2((0.125 * v[vSize - 1][0] + 0.75 * v[0][0] + 0.125 * v[1][0]), (0.125 * v[vSize - 1][1] + 0.75 * v[0][1] + 0.125 * v[1][1])));
+		vt.push_back(ImVec2((0.5 * v[1][0] + 0.5 * v[0][0]), (0.5 * v[1][1] + 0.5 * v[0][1])));
+
+		v.clear();
+		for (const auto i : vt) {
+			v.push_back(i);
+		}
+	}
+	return v;
+}
+```
+
+Four points interpolation subdivision:
+
+```c++
+std::vector<ImVec2> FPIS(CanvasData* data) {
+	std::vector<ImVec2> v;
+	size_t size = data->points.size();
+	for (const auto i : data->points) {
+		v.push_back(i);
+	}
+	for (int i = 0; i < 10; i++) {
+		std::vector<ImVec2> vt;
+		size_t vSize = v.size();
+		for (int j = 1; j < vSize - 2; j++) {
+			vt.push_back(v[j]);
+			vt.push_back(ImVec2(((-0.05) * v[j - 1][0] + 0.55 * v[j][0] + 0.55 * v[j + 1][0] + (-0.05) * v[j + 2][0]), ((-0.05) * v[j - 1][1] + 0.55 * v[j][1] + 0.55 * v[j + 1][1] + (-0.05) * v[j + 2][1])));
+		}
+		vt.push_back(v[vSize - 2]);
+		vt.push_back(ImVec2(((-0.05) * v[vSize - 3][0] + 0.55 * v[vSize - 2][0] + 0.55 * v[vSize - 1][0] + (-0.05) * v[0][0]), ((-0.05) * v[vSize - 3][1] + 0.55 * v[vSize - 2][1] + 0.55 * v[vSize - 1][1] + (-0.05) * v[0][1])));
+		vt.push_back(v[vSize - 1]);
+		vt.push_back(ImVec2(((-0.05) * v[vSize - 2][0] + 0.55 * v[vSize - 1][0] + 0.55 * v[0][0] + (-0.05) * v[1][0]), ((-0.05) * v[vSize - 2][1] + 0.55 * v[vSize - 1][1] + 0.55 * v[0][1] + (-0.05) * v[1][1])));
+		vt.push_back(v[0]);
+		vt.push_back(ImVec2(((-0.05) * v[vSize - 1][0] + 0.55 * v[0][0] + 0.55 * v[1][0] + (-0.05) * v[2][0]), ((-0.05) * v[vSize - 1][1] + 0.55 * v[0][1] + 0.55 * v[1][1] + (-0.05) * v[2][1])));
+		v.clear();
+		for (const auto i : vt) {
+			v.push_back(i);
+		}
+	}
+		
+	return v;
+}
+```
+
+**Result**
+
+![](/assets/img/assignment5.md)
