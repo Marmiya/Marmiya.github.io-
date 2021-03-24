@@ -506,4 +506,4 @@ std::vector<ImVec2> FPIS(CanvasData* data) {
 
 **Result**
 
-![](/assets/img/assignment5.md)
+![](/assets/img/assignment5.png)
