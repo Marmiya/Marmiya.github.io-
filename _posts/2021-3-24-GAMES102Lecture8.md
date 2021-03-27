@@ -3,7 +3,7 @@ layout: post
 title: GAMES-102 Lec8 NOTES
 subtitle: NOTES
 cover-img: /assets/img/path.jpg
-thumbnail-img: /assets/img/subdivision.png
+thumbnail-img: /assets/img/lec8.png
 tags: [notes]
 ---
 
