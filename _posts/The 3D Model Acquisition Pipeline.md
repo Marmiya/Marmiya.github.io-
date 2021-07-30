@@ -1,3 +1,12 @@
+---
+layout: post
+title: The 3D Model Acquisition Pipeline
+subtitle: NOTES
+cover-img: /assets/img/path.jpg
+thumbnail-img: /assets/img/lec8.png
+tags: [notes]
+---
+
 # The 3D Model Acquisition Pipeline
 
 ## Attention: This is a 2002 Eurographics paper, something in it may be out-of-date.
