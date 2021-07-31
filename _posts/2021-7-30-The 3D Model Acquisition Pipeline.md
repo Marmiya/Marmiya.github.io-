@@ -9,7 +9,7 @@ tags: [notes]
 
 # The 3D Model Acquisition Pipeline
 
-## Attention: This is a 2002 Eurographics paper, something in it may be out-of-date.
+## Attention: This is a 2002 Eurographics paper, the content may be out of date.
 
 ## Basic
 
